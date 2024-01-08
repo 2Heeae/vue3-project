@@ -1,30 +1,35 @@
 <template>
-  <div class="name">
-    {{ name }}
-  </div>
-  <button class="btn btn-primary" 
-          v-on:click="updateName">
-    Click
-    </button>
+
+  <input 
+    type="text" 
+    v-model="name"
+    >
+  <button 
+    class="btn btn-primary" 
+    @click="onSubmit">
+      Click
+  </button>
 </template>
 
 <script>
+import {ref} from 'vue';
 export default{
   setup() {
-    let name = 'Heeae1';
+    const name = ref('hello');
 
-    // const greeting = (name) => {
-    //   return 'Hello, ' + name;
+
+    const onSubmit = () => {
+      console.log(name.value);
+    };
+
+    // const updateName = (e) => {
+    //   name.value = e.target.value;
+    //   // console.log(e.target.value);
     // };
 
-    // const greet = greeting(name);
-
-    const updateName = () => {
-      name = 'LEE HEEAE';
-    };
     return{
       name,
-      updateName
+      onSubmit
     }
   }
 }
