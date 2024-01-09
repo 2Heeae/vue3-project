@@ -1,25 +1,25 @@
 <template>
     <form @submit.prevent="onSubmit">
       <div class="d-flex">
-        <div class="flex-grow-1">
+        <div class="flex-grow-1 me-2">
         <input 
           class="form-control"
           type="text" 
           v-model="todo"
-          placeholder="Type new to-do"
+          placeholder="새로운 할 일을 입력해주세요."
         >
-      </div>
-      <div>
-        <button 
-          class="btn btn-primary" 
-          type="submit"
-        >
-          Add
-        </button>
+        </div>
+        <div>
+            <button 
+            class="btn btn-primary" 
+            type="submit"
+            >
+            추가
+            </button>
         </div>
       </div>
       <div v-show="hasError" style ="color:red" >
-        This field cannot be empty
+        할 일이 입력되지 않았습니다.
       </div>
     </form>
 </template>

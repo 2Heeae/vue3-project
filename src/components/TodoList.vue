@@ -24,7 +24,7 @@
             class="btn btn-danger btn-sm"
             @click="deleteTodo(index)"
           >
-            Delete
+            삭제
           </button>
         </div>
       </div>
