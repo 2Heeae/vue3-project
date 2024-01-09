@@ -1,29 +1,8 @@
 <template>
   <div class="container">
     <h1>To-Do List</h1> 
-    <form @submit.prevent="onSubmit">
-      <div class="d-flex">
-        <div class="flex-grow-1">
-        <input 
-          class="form-control"
-          type="text" 
-          v-model="todo"
-          placeholder="Type new to-do"
-        >
-      </div>
-      <div>
-        <button 
-          class="btn btn-primary" 
-          type="submit"
-        >
-          Add
-        </button>
-        </div>
-      </div>
-      <div v-show="hasError" style ="color:red" >
-        This field cannot be empty
-      </div>
-    </form>
+    <TodoSimpleFormVue />
+    
     <div v-if="!todos.length">
       추가된 Todo가 없습니다.
     </div>
@@ -61,8 +40,13 @@
 
 <script>
 import {ref} from 'vue';
+import TodoSimpleFormVue from './components/TodoSimpleForm.vue';
 
 export default{
+  // 컴포넌트를 등록해줘야 사용 가능함
+  components: {
+    TodoSimpleFormVue
+  },
   setup() {
     const todo = ref('');
     const todos = ref([]);
