@@ -9,6 +9,7 @@
     > 
     <hr />
     <TodoSimpleFormVue @add-todo="addTodo" />
+    <div style="color:red">{{ error }}</div>
 
     <div v-if="!filteredTodos.length">
       내용이 없습니다.
@@ -25,6 +26,7 @@
 import {ref, computed} from 'vue';
 import TodoSimpleFormVue from './components/TodoSimpleForm.vue';
 import TodoListVue from './components/TodoList.vue';
+import axios from 'axios';
 
 export default{
   // 컴포넌트를 등록해줘야 사용 가능함
@@ -34,10 +36,23 @@ export default{
   },
   setup() {
     const todos = ref([]);
+    const error = ref('');
 
     const addTodo = (todo) => {
-      console.log(todo);
-      todos.value.push(todo);
+      // DB에 todo를 저장
+      error.value = '';
+      axios.post('http://localhost:3000/todos', {
+        //id는 1부터 차례대로 저장됨
+        subject: todo.subject,
+        completed: todo.completed
+      }).then(res => {
+        //응답이 오면 리스트에 추가하도록..
+        console.log(res);
+        todos.value.push(res.data);
+      }).catch(err => {
+        console.log(err);
+        error.value = '에러가 발생하였습니다.';
+      });
     };
 
     const toggleTodo = (index) => {
@@ -66,6 +81,7 @@ export default{
       deleteTodo,
       searchText,
       filteredTodos,
+      error,
     }
   }
 }

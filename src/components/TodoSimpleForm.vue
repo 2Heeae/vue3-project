@@ -40,7 +40,7 @@ import { ref } from 'vue';
                     emit('add-todo', {
                         id: Date.now(),
                         subject: todo.value,
-                        coppleted: false,
+                        completed: false,
                     });
                     hasError.value = false;
                     todo.value = '';
