@@ -41,19 +41,30 @@ export default{
     const todos = ref([]);
     const error = ref('');
 
+    const getTodos = async () => {
+      try{
+        const res = await axios.get('http://localhost:3000/todos');
+        todos.value = res.data;
+      } catch (err) {
+        console.log(err);
+        error.value = 'DB 연결 에러가 발생하였습니다.';
+      }
+    };
+
+    getTodos();
+
     const addTodo = async (todo) => {
       // DB에 todo를 저장
       error.value = '';
       try{
         const res = await axios.post('http://localhost:3000/todos', {
-        //id는 1부터 차례대로 저장됨
         subject: todo.subject,
         completed: todo.completed
         });
         todos.value.push(res.data);
       } catch (err) {
         console.log(err);
-        error.value = '에러가 발생하였습니다.';
+        error.value = 'DB 연결 에러가 발생하였습니다.';
       }
     };
 
