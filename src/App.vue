@@ -38,6 +38,7 @@
           >
           <label 
             class="form-check-label"
+            :class="{ todo: todo.completed }"
           >
             {{ todo.subject }}
           </label>
@@ -56,6 +57,11 @@ export default{
     const todo = ref('');
     const todos = ref([]);
     const hasError = ref(false);
+    // const todoStyle = {
+    //   // css 는 text-decoration임
+    //   textDecoration : 'line-through',
+    //   color: 'gray'
+    // }
 
     const onSubmit = () => {   
       if (todo.value == ''){
@@ -76,14 +82,15 @@ export default{
       todo,
       todos,
       onSubmit,
-      hasError
+      hasError,
     }
   }
 }
 </script>
 
 <style>
-  .name {
-    color: blue;
+  .todo {
+    color: gray;
+    text-decoration: line-through;
   }
 </style>
