@@ -6,13 +6,6 @@
     >
       <div class="card-body p-2 d-flex align-items-center">
         <div class="form-check flex-grow-1">
-          <!-- 
-            props는 부모에서 자식으로 전달함 (단방향)
-            v-model을 사용하게 되면 양방향이기 때문에
-            :vlaue로 받아 값이 바뀌면 toggleTodo 함수로
-            부모에게 emit하도록 수정
-
-         -->
             <input 
             class="form-check-input" 
             type="checkbox"
@@ -30,7 +23,7 @@
           <button 
             class="btn btn-danger btn-sm"
             @click="deleteTodo(index)"
-            >
+          >
             Delete
           </button>
         </div>
@@ -40,19 +33,25 @@
 
 <script>
 export default {
-    // porps: ['todos']
     props: {
         todos: {
             type: Array,
             required: true
         }
     },
-    setup(props, context){
+    emits: ['toggle-todo', 'delete-todo'],
+    setup(props, { emit }){
         const toggleTodo = (index) => {
-            context.emit('toggle-todo', index);
+            emit('toggle-todo', index);
         };
+
+        const deleteTodo = (index) => {
+            emit('delete-todo', index);
+        };
+
         return {
             toggleTodo,
+            deleteTodo
         }
     }
 }
