@@ -68,8 +68,19 @@ export default{
       }
     };
 
-    const toggleTodo = (index) => {
-      todos.value[index].completed = !todos.value[index].completed;
+    const toggleTodo = async (index) => {
+      error.value = '';
+      const id = todos.value[index].id;
+      try{
+        await axios.patch('http://localhost:3000/todos/' + id, {
+          completed: !todos.value[index].completed
+        });
+
+        todos.value[index].completed = !todos.value[index].completed;
+      } catch(err) {
+        console.log(err);
+        error.value = 'DB 연결 에러가 발생하였습니다.';
+      }
     };
 
     const deleteTodo = async (index) => {
