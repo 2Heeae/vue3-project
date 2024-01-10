@@ -33,6 +33,7 @@
     <deleteModal 
       v-if="showDeleteModal"
       @close="closeModal"
+      @delete="deleteTodo"
     />
 </template>
 
@@ -70,8 +71,11 @@ export default {
         showDeleteModal.value = false;
       };
 
-      const deleteTodo = (index) => {
-          emit('delete-todo', index);
+      const deleteTodo = () => {
+          emit('delete-todo', todoDeleteId.value);
+          // 삭제후 창 닫기
+          showDeleteModal.value = false;
+          todoDeleteId.value = null;
       };
 
       return {

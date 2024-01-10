@@ -6,7 +6,7 @@
         <div class="modal-content">
         <div class="modal-header" style="background-color: #e3f2fd">
             <h5 class="modal-title" id="exampleModalLabel">삭제확인</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" class="close">
             <span @click="onClose">&times;</span>
             </button>
         </div>
@@ -15,13 +15,17 @@
         </div>
         <div class="modal-footer" style="background-color: #e3f2fd">
             <button 
-                type="button" 
-                class="btn btn-secondary" 
+                type="button" class="btn btn-secondary" 
                 @click="onClose"
             >
-                Close
+                취소
             </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button 
+                type="button" class="btn btn-primary"
+                @click="onDelete"
+            >
+                삭제
+            </button>
         </div>
         </div>
     </div>
@@ -35,8 +39,12 @@ export default {
         const onClose = () => {
             emit('close');
         }
+        const onDelete = () => {
+            emit('delete');
+        }
         return {
-            onClose
+            onClose,
+            onDelete
         }
     }
 }

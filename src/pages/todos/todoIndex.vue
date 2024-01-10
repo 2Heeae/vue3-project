@@ -91,13 +91,12 @@
           }
         };
     
-        const deleteTodo = async (index) => {
+        const deleteTodo = async (id) => {
           error.value = '';
-          const id = todos.value[index].id;
           try{
             await axios.delete('http://localhost:3000/todos/' + id);
-            todos.value.splice(index, 1);
             totalTodos.value--;
+            getTodos();
           } catch(err) {
             console.log(err);
             error.value = 'DB 연결 에러가 발생하였습니다.';
