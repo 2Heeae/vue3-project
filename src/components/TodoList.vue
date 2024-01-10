@@ -6,7 +6,7 @@
     >
       <div class="card-body p-2 d-flex align-items-center">
         <div class="form-check flex-grow-1">
-            <input 
+          <input 
             class="form-check-input" 
             type="checkbox"
             :checked="todo.completed"
@@ -18,6 +18,7 @@
           >
             {{ todo.subject }}
           </label>
+          <small style="float:right; margin-right: 10px;">{{ todo.date }}</small>
         </div>
         <div>
           <button 

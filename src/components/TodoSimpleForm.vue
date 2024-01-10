@@ -37,10 +37,14 @@ import { ref } from 'vue';
                 if (todo.value == ''){
                     hasError.value = true;
                 }else{
+                    let today = new Date();
+                    today.setHours(today.getHours() + 9);
+                    today = today.toISOString().replace('T', ' ').substring(0, 19);
                     emit('add-todo', {
                         id: Date.now(),
                         subject: todo.value,
                         completed: false,
+                        date: today
                     });
                     hasError.value = false;
                     todo.value = '';

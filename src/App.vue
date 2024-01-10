@@ -1,4 +1,5 @@
 <template>
+<router-view/>  
   <div class="container">
     <h1 class="display-4 text-center p-3">To-Do List</h1>
     <input 
@@ -40,11 +41,14 @@ export default{
   setup() {
     const todos = ref([]);
     const error = ref('');
+    const totalTodos = ref(0);
+    const searchText = ref('');
 
     const getTodos = async () => {
       try{
         const res = await axios.get('http://localhost:3000/todos');
         todos.value = res.data;
+        totalTodos.value = res.data.length;
       } catch (err) {
         console.log(err);
         error.value = 'DB 연결 에러가 발생하였습니다.';
@@ -59,9 +63,11 @@ export default{
       try{
         const res = await axios.post('http://localhost:3000/todos', {
         subject: todo.subject,
-        completed: todo.completed
+        completed: todo.completed,
+        date: todo.date
         });
         todos.value.push(res.data);
+        totalTodos.value++;
       } catch (err) {
         console.log(err);
         error.value = 'DB 연결 에러가 발생하였습니다.';
@@ -89,13 +95,13 @@ export default{
       try{
         await axios.delete('http://localhost:3000/todos/' + id);
         todos.value.splice(index, 1);
+        totalTodos.value--;
       } catch(err) {
         console.log(err);
         error.value = 'DB 연결 에러가 발생하였습니다.';
       }
     }
 
-    const searchText = ref('');
     const filteredTodos = computed(() => {
       if (searchText.value) {
         return todos.value.filter(todo => {
