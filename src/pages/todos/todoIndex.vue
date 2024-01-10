@@ -1,16 +1,18 @@
 <template>
     <router-view/>  
-      <div class="container">
+      <div>
         <h1 class="display-4 text-center p-3">To-Do List</h1>
         <input 
               class="form-control"
               type="text" 
               v-model="searchText"
-              placeholder="빠른 검색"
+              placeholder="🔍︎ 빠른 검색"
         > 
         <hr />
         <TodoSimpleFormVue @add-todo="addTodo" />
-        <div style="color:red">{{ error }}</div>
+        <div style="color:red; margin: 7px;">
+            {{ error }}
+        </div>
     
         <div 
           class="p-3"

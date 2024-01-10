@@ -6,7 +6,7 @@
           class="form-control"
           type="text" 
           v-model="todo"
-          placeholder="새로운 할 일을 입력해주세요."
+          placeholder="➕︎ 새로운 할 일을 입력해주세요."
         >
         </div>
         <div>
@@ -18,8 +18,8 @@
             </button>
         </div>
       </div>
-      <div v-show="hasError" style ="color:red" >
-        할 일이 입력되지 않았습니다.
+      <div v-show="hasError" style ="color:red; margin: 7px;" >
+        할 일이 입력되지 않았습니다.😟
       </div>
     </form>
 </template>

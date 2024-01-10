@@ -23,38 +23,65 @@
         <div>
           <button 
             class="btn btn-danger btn-sm"
-            @click="deleteTodo(index)"
+            @click="openDeleteModal(todo.id)"
           >
             삭제
           </button>
         </div>
       </div>
     </div>  
+    <deleteModal 
+      v-if="showDeleteModal"
+      @close="closeModal"
+    />
 </template>
 
 <script>
+import deleteModal from './deleteModal.vue';
+import {ref} from 'vue';
+
 export default {
-    props: {
-        todos: {
-            type: Array,
-            required: true
-        }
-    },
-    emits: ['toggle-todo', 'delete-todo'],
-    setup(props, { emit }){
-        const toggleTodo = (index) => {
-            emit('toggle-todo', index);
-        };
+  components:{
+    deleteModal
+  },
+  props: {
+      todos: {
+          type: Array,
+          required: true
+      }
+  },
+  emits: ['toggle-todo', 'delete-todo'],
+  setup(props, { emit }){
+      const showDeleteModal = ref(false);
+      const todoDeleteId = ref(null);
 
-        const deleteTodo = (index) => {
-            emit('delete-todo', index);
-        };
+      const toggleTodo = (index) => {
+          emit('toggle-todo', index);
+      };
 
-        return {
-            toggleTodo,
-            deleteTodo
-        }
-    }
+      const openDeleteModal = (id) => {
+        console.log(id);
+        todoDeleteId.value = id;
+        showDeleteModal.value = true;
+      };
+
+      const closeModal = () => {
+        todoDeleteId.value = null;
+        showDeleteModal.value = false;
+      };
+
+      const deleteTodo = (index) => {
+          emit('delete-todo', index);
+      };
+
+      return {
+          toggleTodo,
+          deleteTodo,
+          showDeleteModal,
+          openDeleteModal,
+          closeModal,
+      }
+  }
 }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-xl navbar-light bg-light">
+  <nav class="navbar navbar-expand-xl navbar-light" style="background-color: #e3f2fd">
   <div class="container-fluid">
     <router-link class="navbar-brand" to="/">갓생살기</router-link>
       <ul class="navbar-nav me-auto mb-2 mb-xl-0">
@@ -9,7 +9,9 @@
       </ul>
   </div>
 </nav>
-  <router-view/>  
+<div class="container">
+  <router-view/> 
+</div>
 </template>
 
 <script>
