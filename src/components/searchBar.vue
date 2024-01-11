@@ -3,6 +3,7 @@
         <input 
             class="form-control"
             type="text"
+            @click="todoRouter"
             @input="onSearch(stext = $event.target.value)"
             placeholder="🔍︎ 빠른 검색"
         > 
@@ -11,18 +12,24 @@
 </template>
 
 <script>
+    import { useRouter } from "vue-router";
+    export default {
+        setup(props, {emit}) {
+            const router = useRouter();
+            
+            const todoRouter = () => {
+                router.push({ path: "/todos" });
+            };
 
-export default {
-    setup(props, {emit}) {
-
-        const onSearch = (stext) => {
-            console.log(stext);
-            emit('search', stext);
+            const onSearch = (stext) => {
+                console.log(stext);
+                emit('search', stext);
+            }
+            return {
+                onSearch,
+                todoRouter
+            }
         }
-        return {
-            onSearch
-        }
-    }
 }
 </script>
 

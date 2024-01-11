@@ -12,8 +12,9 @@
         </div>
         <div>
             <button 
-            class="btn btn-primary" 
-            type="submit"
+                class="btn btn-primary" 
+                type="submit"
+                @click="todoRouter"
             >
             추가
             </button>
@@ -27,38 +28,45 @@
 
 <script>
 import { ref } from 'vue';
+import { useRouter } from "vue-router";
 
-    export default {
-        emits: ['add-todo'],
-        setup(props, { emit }) {
-            const todo = ref('');
-            const hasError = ref(false);
+export default {
+    emits: ['add-todo'],
+    setup(props, { emit }) {
+        const todo = ref('');
+        const hasError = ref(false);
+        const router = useRouter();
 
-            const onSubmit = () => {   
-                if (todo.value == ''){
-                    hasError.value = true;
-                }else{
-                    let today = new Date();
-                    today.setHours(today.getHours() + 9);
-                    today = today.toISOString().replace('T', ' ').substring(0, 19);
-                    emit('add-todo', {
-                        id: Date.now(),
-                        subject: todo.value,
-                        completed: false,
-                        date: today
-                    });
-                    hasError.value = false;
-                    todo.value = '';
-                }
-            };
+        const todoRouter = () => {
+            router.push({ path: "/todos" });
+        };
 
-            return {
-                todo,
-                hasError,
-                onSubmit
+        const onSubmit = () => {   
+            if (todo.value == ''){
+                hasError.value = true;
+            }else{
+                let today = new Date();
+                today.setHours(today.getHours() + 9);
+                today = today.toISOString().replace('T', ' ').substring(0, 19);
+                emit('add-todo', {
+                    id: Date.now(),
+                    subject: todo.value,
+                    completed: false,
+                    date: today
+                });
+                hasError.value = false;
+                todo.value = '';
             }
+        };
+
+        return {
+            todo,
+            hasError,
+            onSubmit,
+            todoRouter
         }
     }
+}
 </script>
 
 <style>
