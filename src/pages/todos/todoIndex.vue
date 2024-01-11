@@ -1,7 +1,7 @@
 <template>
     <router-view/>  
       <div>
-        <h1 class="display-4 text-center p-3">To-Do List</h1>
+        <h1 class="display-4 text-center p-3">📌𝗧𝗼-𝗗𝗼 𝗟𝗶𝘀𝘁</h1>
         <SearchBar @search= "search"/>
         <hr style="padding: 5px"/>
         <TodoSimpleFormVue @add-todo="addTodo" />

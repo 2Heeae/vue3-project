@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="display-5 text-center p-5">일하는 멋진어른이 되자!</h1>
+    <h1 class="display-5 text-center p-5" style="font-weight: bold;">일하는 멋진어른이 되자!💖</h1>
     <SearchBar />
     <hr style="padding: 5px"/>
     <TodoSimpleFormVue @add-todo="addTodo"/>

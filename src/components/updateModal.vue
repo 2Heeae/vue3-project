@@ -4,13 +4,17 @@
     <div class="modal">
         <div class="modal-content">
         <div class="modal-header" style="background-color: #e3f2fd">
-            <h5 class="modal-title" id="exampleModalLabel">삭제확인</h5>
+            <h5 class="modal-title" id="exampleModalLabel">수정확인</h5>
             <button type="button" class="close">
             <span @click="onClose">&times;</span>
             </button>
         </div>
         <div class="modal-body">
-            정말 삭제하시겠습니까?
+            <input 
+                class="form-control"
+                type="text" 
+                placeholder="기존 값 받아오기"
+            >
         </div>
         <div class="modal-footer" style="background-color: #e3f2fd">
             <button 
@@ -23,7 +27,7 @@
                 type="button" class="btn btn-primary"
                 @click="onDelete"
             >
-                삭제
+                확인
             </button>
         </div>
         </div>

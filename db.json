@@ -1,18 +1,6 @@
 {
   "todos": [
     {
-      "id": "da3f",
-      "subject": "출근하기",
-      "completed": true,
-      "date": "2024-01-10 15:55:21"
-    },
-    {
-      "id": "7e11",
-      "subject": "커피 마시기",
-      "completed": false,
-      "date": "2024-01-10 15:55:29"
-    },
-    {
       "id": "fa46",
       "subject": "점심 냠냠",
       "completed": true,
@@ -35,6 +23,12 @@
       "subject": "달력도 추가해야징",
       "completed": false,
       "date": "2024-01-10 15:57:00"
+    },
+    {
+      "id": "46d5",
+      "subject": "수정 기능 추가",
+      "completed": false,
+      "date": "2024-01-11 16:24:12"
     }
   ]
 }

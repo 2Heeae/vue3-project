@@ -22,7 +22,13 @@
         </div>
         <div>
           <button 
-            class="btn btn-danger btn-sm"
+            class="btn btn-outline-primary btn-sm me-2"
+            @click="openUpdateModal(todo.id)"
+          >
+            수정
+          </button>
+          <button 
+            class="btn btn-outline-danger btn-sm"
             @click="openDeleteModal(todo.id)"
           >
             삭제
@@ -35,15 +41,21 @@
       @close="closeModal"
       @delete="deleteTodo"
     />
+    <updateModal 
+      v-if="showUpdateModal"
+      @close="closeModal"
+    />
 </template>
 
 <script>
 import deleteModal from './deleteModal.vue';
+import updateModal from './updateModal.vue';
 import {ref} from 'vue';
 
 export default {
   components:{
-    deleteModal
+    deleteModal,
+    updateModal
   },
   props: {
       todos: {
@@ -55,6 +67,8 @@ export default {
   setup(props, { emit }){
       const showDeleteModal = ref(false);
       const todoDeleteId = ref(null);
+      const showUpdateModal = ref(false);
+      const todoUpdateId = ref(null);
 
       const toggleTodo = (index) => {
           emit('toggle-todo', index);
@@ -69,6 +83,8 @@ export default {
       const closeModal = () => {
         todoDeleteId.value = null;
         showDeleteModal.value = false;
+        todoUpdateId.value = null;
+        showUpdateModal.value = false;
       };
 
       const deleteTodo = () => {
@@ -78,11 +94,19 @@ export default {
           todoDeleteId.value = null;
       };
 
+      const openUpdateModal = (id) => {
+        console.log(id);
+        todoUpdateId.value = id;
+        showUpdateModal.value = true;
+      };
+
       return {
           toggleTodo,
           deleteTodo,
           showDeleteModal,
           openDeleteModal,
+          showUpdateModal,
+          openUpdateModal,
           closeModal,
       }
   }
