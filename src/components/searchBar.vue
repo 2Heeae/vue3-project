@@ -6,7 +6,6 @@
             @input="onSearch(stext = $event.target.value)"
             placeholder="🔍︎ 빠른 검색"
         > 
-        <hr />
     </div>
 
 </template>

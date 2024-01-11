@@ -6,6 +6,7 @@
           class="form-control"
           type="text" 
           v-model="todo"
+          style="background-color: #e3f2fd"
           placeholder="➕︎ 새로운 할 일을 입력해주세요."
         >
         </div>

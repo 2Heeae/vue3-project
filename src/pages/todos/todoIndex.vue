@@ -2,13 +2,13 @@
     <router-view/>  
       <div>
         <h1 class="display-4 text-center p-3">To-Do List</h1>
-
         <SearchBar @search= "search"/>
+        <hr style="padding: 5px"/>
         <TodoSimpleFormVue @add-todo="addTodo" />
         <div style="color:red; margin: 7px;">
             {{ error }}
         </div>
-    
+        <div style="padding: 3px"></div>
         <div 
           class="p-3"
           v-if="!filteredTodos.length"
