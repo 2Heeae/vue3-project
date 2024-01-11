@@ -2,13 +2,8 @@
     <router-view/>  
       <div>
         <h1 class="display-4 text-center p-3">To-Do List</h1>
-        <input 
-              class="form-control"
-              type="text" 
-              v-model="searchText"
-              placeholder="🔍︎ 빠른 검색"
-        > 
-        <hr />
+
+        <SearchBar @search= "search"/>
         <TodoSimpleFormVue @add-todo="addTodo" />
         <div style="color:red; margin: 7px;">
             {{ error }}
@@ -29,16 +24,18 @@
     </template>
     
     <script>
-    import {ref, computed} from 'vue';
+    import { ref, computed } from 'vue';
     import TodoSimpleFormVue from '@/components/TodoSimpleForm.vue';
     import TodoListVue from '@/components/TodoList.vue';
+    import SearchBar from '@/components/searchBar.vue';
     import axios from 'axios';
     
     export default{
       // 컴포넌트를 등록해줘야 사용 가능함
       components: {
         TodoSimpleFormVue,
-        TodoListVue
+        TodoListVue,
+        SearchBar
       },
       setup() {
         const todos = ref([]);
@@ -102,7 +99,11 @@
             error.value = 'DB 연결 에러가 발생하였습니다.';
           }
         }
-    
+ 
+        const search = (stext) => {
+          searchText.value = stext;
+        };
+
         const filteredTodos = computed(() => {
           if (searchText.value) {
             return todos.value.filter(todo => {
@@ -112,12 +113,14 @@
           return todos.value;
         });
     
+
         return{
           todos,
           addTodo,
           toggleTodo,
           deleteTodo,
           searchText,
+          search,
           filteredTodos,
           error,
         }
