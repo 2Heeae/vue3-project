@@ -3,21 +3,33 @@
     <div class="modal-wrapper">
     <div class="modal">
         <div class="modal-content">
-        <div class="modal-header" style="background-color: #e3f2fd">
-            <h5 class="modal-title" id="exampleModalLabel">수정확인</h5>
+        <div 
+            class="modal-header" 
+            style="background-color: #14213d; height: 45px;"
+        >
+            <h5 
+                class="modal-title" 
+                id="exampleModalLabel"
+                style="color:white"
+            >
+                수정확인
+            </h5>
             <button type="button" class="close">
             <span @click="onClose">&times;</span>
             </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" style="background-color: #e5e5e5;">
             <input 
                 class="form-control"
                 type="text" 
+                style="height: 70px;"
                 :value="todoSubject"
                 @input="changeText"
             >
         </div>
-        <div class="modal-footer" style="background-color: #e3f2fd">
+        <div 
+            class="modal-footer" 
+            style="background-color: #e5e5e5; padding-top: 0">
             <button 
                 type="button" class="btn btn-secondary" 
                 @click="onClose"
@@ -26,6 +38,7 @@
             </button>
             <button 
                 type="button" class="btn btn-primary"
+                style="background-color: #fca311; border-color: #fca311;"
                 @click="onUpdate(editSubject)"
             >
                 확인

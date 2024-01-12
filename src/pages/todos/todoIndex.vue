@@ -21,6 +21,17 @@
         >
           내용이 없습니다.
         </div>
+        <div 
+          class="progress" 
+          v-if="filteredTodos.length" 
+          v-show="!searchText" >
+          <div
+            class="progress-bar progress-bar-striped progress-bar-animated" 
+            role="progressbar" 
+            style="width: 55%; background-color:#fca311;" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100">
+            {{  progress }}%
+          </div>
+        </div>
         <TodoListVue 
           :todos="filteredTodos" 
           @toggle-todo="toggleTodo"
@@ -49,12 +60,19 @@
         const error = ref('');
         const totalTodos = ref(0);
         const searchText = ref('');
+        const progress = ref(0);
+        const completedCnt = ref(0);
     
         const getTodos = async () => {
           try{
             const res = await axios.get('http://localhost:3000/todos');
             todos.value = res.data;
             totalTodos.value = res.data.length;
+
+            // progress 계산하기
+            completedCnt.value = 0;
+            todos.value.forEach(todo => todo.completed? completedCnt.value++ : '');
+            countProgress();
           } catch (err) {
             console.log(err);
             error.value = 'DB 연결 에러가 발생하였습니다.';
@@ -62,6 +80,11 @@
         };
     
         getTodos();
+
+        const countProgress = () => {
+          console.log(completedCnt.value,totalTodos.value);
+          progress.value = Math.ceil(completedCnt.value/totalTodos.value * 100);
+        };
     
         const addTodo = async (todo) => {
           // DB에 todo를 저장
@@ -87,8 +110,8 @@
             await axios.patch('http://localhost:3000/todos/' + id, {
               completed: !todos.value[index].completed
             });
-    
             todos.value[index].completed = !todos.value[index].completed;
+            getTodos();
           } catch(err) {
             console.log(err);
             error.value = 'DB 연결 에러가 발생하였습니다.';
@@ -144,6 +167,8 @@
           search,
           filteredTodos,
           error,
+          progress,
+          countProgress,
         }
       }
     }
