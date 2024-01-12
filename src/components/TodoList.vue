@@ -23,9 +23,9 @@
         <div>
           <button 
             class="btn btn-outline-primary btn-sm me-2"
-            @click="openUpdateModal(todo.id)"
+            @click="openUpdateModal(todo)"
           >
-            수정
+            수정                         
           </button>
           <button 
             class="btn btn-outline-danger btn-sm"
@@ -41,10 +41,12 @@
       @close="closeModal"
       @delete="deleteTodo"
     />
-    <updateModal 
+    <updateModal
+      :todoSubject="todoUpdateSubject"
       v-if="showUpdateModal"
       @close="closeModal"
-    />
+      @update="updateTodo"
+    />            
 </template>
 
 <script>
@@ -69,13 +71,13 @@ export default {
       const todoDeleteId = ref(null);
       const showUpdateModal = ref(false);
       const todoUpdateId = ref(null);
+      const todoUpdateSubject = ref(null);
 
       const toggleTodo = (index) => {
           emit('toggle-todo', index);
       };
 
       const openDeleteModal = (id) => {
-        console.log(id);
         todoDeleteId.value = id;
         showDeleteModal.value = true;
       };
@@ -85,6 +87,7 @@ export default {
         showDeleteModal.value = false;
         todoUpdateId.value = null;
         showUpdateModal.value = false;
+        todoUpdateSubject.value = null;
       };
 
       const deleteTodo = () => {
@@ -94,20 +97,29 @@ export default {
           todoDeleteId.value = null;
       };
 
-      const openUpdateModal = (id) => {
-        console.log(id);
-        todoUpdateId.value = id;
+      const openUpdateModal = (todo) => {
+        todoUpdateId.value = todo.id;
+        todoUpdateSubject.value = todo.subject;
         showUpdateModal.value = true;
+      };
+
+      const updateTodo = (subject) => {
+          emit('update-todo', todoUpdateId.value, subject);
+          showUpdateModal.value = false;
+          todoUpdateId.value = null;
+          todoUpdateSubject.value = null;
       };
 
       return {
           toggleTodo,
           deleteTodo,
+          updateTodo,
           showDeleteModal,
           openDeleteModal,
           showUpdateModal,
           openUpdateModal,
           closeModal,
+          todoUpdateSubject,
       }
   }
 }

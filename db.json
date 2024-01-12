@@ -2,19 +2,18 @@
   "todos": [
     {
       "id": "fa46",
-      "subject": "점심 냠냠",
+      "subject": "점심 냠냠123",
       "completed": true,
-      "date": "2024-01-10 15:55:35"
-    },
-    {
-      "id": "ec98",
-      "subject": "노래 흥얼흥얼",
-      "completed": false,
-      "date": "2024-01-10 15:55:43"
+      "date": "2024-01-10 15:55:35",
+      "__v_isShallow": false,
+      "dep": {},
+      "__v_isRef": true,
+      "_rawValue": "점심 냠냠",
+      "_value": "점심 냠냠"
     },
     {
       "id": "377b",
-      "subject": "뷰란 무엇인가...",
+      "subject": "뷰란 무엇인가...?",
       "completed": false,
       "date": "2024-01-10 15:56:10"
     },
@@ -29,6 +28,12 @@
       "subject": "수정 기능 추가",
       "completed": false,
       "date": "2024-01-11 16:24:12"
+    },
+    {
+      "id": "a1f2",
+      "subject": "미완료만 보여주는 체크박스 만들기... ",
+      "completed": false,
+      "date": "2024-01-11 17:44:33"
     }
   ]
 }

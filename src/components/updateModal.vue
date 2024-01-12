@@ -13,7 +13,8 @@
             <input 
                 class="form-control"
                 type="text" 
-                placeholder="기존 값 받아오기"
+                :value="todoSubject"
+                @input="changeText"
             >
         </div>
         <div class="modal-footer" style="background-color: #e3f2fd">
@@ -25,7 +26,7 @@
             </button>
             <button 
                 type="button" class="btn btn-primary"
-                @click="onDelete"
+                @click="onUpdate(editSubject)"
             >
                 확인
             </button>
@@ -36,24 +37,44 @@
 </template>
 
 <script>
+import { ref } from 'vue';
+
 export default {
+    props: {
+      todoSubject: {
+          type: String,
+          required: true
+      }
+    },
+    emits: ['onClose', 'onUpdate'],
     setup(props, {emit}) {
+        const editSubject = ref(null);
+
         const onClose = () => {
+            editSubject.value = null;
             emit('close');
-        }
-        const onDelete = () => {
-            emit('delete');
-        }
+        };
+
+        const onUpdate = (editSubject) => {
+            console.log('수정보냄',editSubject);
+            emit('update', editSubject);
+        };
+
+        const changeText = (event) => {
+            editSubject.value = event.target.value;
+        };
+
         return {
             onClose,
-            onDelete
+            onUpdate,
+            editSubject,
+            changeText,
         }
     }
 }
 </script>
 
 <style scoped>
-
     .modal-wrapper{
         /* 화면에 꽉 차게 하는 코드(여기서는 너비를 꽉 채우는 용도) */
         position: fixed;

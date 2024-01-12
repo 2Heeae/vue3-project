@@ -6,13 +6,14 @@
           class="form-control"
           type="text" 
           v-model="todo"
-          style="background-color: #e3f2fd"
+          style="background-color: #e5e5e5"
           placeholder="➕︎ 새로운 할 일을 입력해주세요."
         >
         </div>
         <div>
             <button 
                 class="btn btn-primary" 
+                style="background-color: #fca311; border-color: #fca311;"
                 type="submit"
                 @click="todoRouter"
             >

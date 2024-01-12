@@ -1,10 +1,16 @@
 <template>
     <router-view/>  
       <div>
-        <h1 class="display-4 text-center p-3">📌𝗧𝗼-𝗗𝗼 𝗟𝗶𝘀𝘁</h1>
+        <h1 class="display-4 text-center p-3"
+          style="color: #14213d;">
+          📌𝗧𝗼-𝗗𝗼 𝗟𝗶𝘀𝘁
+        </h1>
         <SearchBar @search= "search"/>
         <hr style="padding: 5px"/>
-        <TodoSimpleFormVue @add-todo="addTodo" />
+        <TodoSimpleFormVue 
+          v-show="!searchText"
+          @add-todo="addTodo" 
+        />
         <div style="color:red; margin: 7px;">
             {{ error }}
         </div>
@@ -19,6 +25,7 @@
           :todos="filteredTodos" 
           @toggle-todo="toggleTodo"
           @delete-todo="deleteTodo"
+          @update-todo="updateTodo"
         />
       </div>
     </template>
@@ -99,6 +106,19 @@
             error.value = 'DB 연결 에러가 발생하였습니다.';
           }
         }
+
+        const updateTodo = async (id,subject) => {
+          error.value = '';
+          try{
+            await axios.patch('http://localhost:3000/todos/' + id, {
+              subject: subject
+            });
+            getTodos();
+          } catch(err) {
+            console.log(err);
+            error.value = 'DB 연결 에러가 발생하였습니다.';
+          }
+        }
  
         const search = (stext) => {
           searchText.value = stext;
@@ -119,6 +139,7 @@
           addTodo,
           toggleTodo,
           deleteTodo,
+          updateTodo,
           searchText,
           search,
           filteredTodos,
