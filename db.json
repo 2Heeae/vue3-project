@@ -2,14 +2,9 @@
   "todos": [
     {
       "id": "fa46",
-      "subject": "점심 냠냠",
+      "subject": "점심 냠냠123",
       "completed": true,
-      "date": "2024-01-10 15:55:35",
-      "__v_isShallow": false,
-      "dep": {},
-      "__v_isRef": true,
-      "_rawValue": "점심 냠냠",
-      "_value": "점심 냠냠"
+      "date": "2024-01-10 15:55:35"
     },
     {
       "id": "377b",
@@ -20,13 +15,13 @@
     {
       "id": "23bb",
       "subject": "달력도 추가해야징",
-      "completed": true,
+      "completed": false,
       "date": "2024-01-10 15:57:00"
     },
     {
       "id": "46d5",
       "subject": "수정 기능 추가",
-      "completed": false,
+      "completed": true,
       "date": "2024-01-11 16:24:12"
     },
     {

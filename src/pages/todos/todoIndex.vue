@@ -1,35 +1,37 @@
 <template>
     <router-view/>  
       <div>
-        <h1 class="display-4 text-center p-3"
-          style="color: #14213d;">
+        <h1 class= "display-4 text-center p-3"
+          style= "color: #14213d;">
           📌𝗧𝗼-𝗗𝗼 𝗟𝗶𝘀𝘁
         </h1>
         <SearchBar @search= "search"/>
-        <hr style="padding: 5px"/>
+        <hr style= "padding: 5px"/>
         <TodoSimpleFormVue 
-          v-show="!searchText"
-          @add-todo="addTodo" 
+          v-show= "!searchText"
+          @add-todo= "addTodo" 
         />
-        <div style="color:red; margin: 7px;">
+        <div style= "color:red; margin: 7px;">
             {{ error }}
         </div>
-        <div style="padding: 3px"></div>
+        <div style= "padding: 3px"></div>
         <div 
-          class="p-3"
+          class= "p-3"
           v-if="!filteredTodos.length"
         >
           내용이 없습니다.
         </div>
         <div 
-          class="progress" 
-          v-if="filteredTodos.length" 
-          v-show="!searchText" >
+          class= "progress" 
+          v-if= "filteredTodos.length" 
+          v-show= "!searchText" >
           <div
-            class="progress-bar progress-bar-striped progress-bar-animated" 
-            role="progressbar" 
-            style="width: 55%; background-color:#fca311;" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100">
-            {{  progress }}%
+            class= "progress-bar progress-bar-striped progress-bar-animated progressStyle"
+            role= "progressbar"
+            aria-valuenow= progress
+            aria-valuemin= "0" 
+            aria-valuemax= "100">
+            목표달성: {{  progress }}%
           </div>
         </div>
         <TodoListVue 
@@ -62,17 +64,15 @@
         const searchText = ref('');
         const progress = ref(0);
         const completedCnt = ref(0);
+        const progressWidth = ref(0);
     
         const getTodos = async () => {
           try{
             const res = await axios.get('http://localhost:3000/todos');
             todos.value = res.data;
             totalTodos.value = res.data.length;
-
             // progress 계산하기
-            completedCnt.value = 0;
-            todos.value.forEach(todo => todo.completed? completedCnt.value++ : '');
-            countProgress();
+            settingProgress();
           } catch (err) {
             console.log(err);
             error.value = 'DB 연결 에러가 발생하였습니다.';
@@ -81,11 +81,18 @@
     
         getTodos();
 
+        const settingProgress = () => {
+            completedCnt.value = 0;
+            todos.value.forEach(todo => todo.completed? completedCnt.value++ : '');
+            countProgress();
+            progressWidth.value = progress.value + '%';          
+        };
+
         const countProgress = () => {
           console.log(completedCnt.value,totalTodos.value);
           progress.value = Math.ceil(completedCnt.value/totalTodos.value * 100);
         };
-    
+
         const addTodo = async (todo) => {
           // DB에 todo를 저장
           error.value = '';
@@ -169,6 +176,7 @@
           error,
           progress,
           countProgress,
+          progressWidth,
         }
       }
     }
@@ -178,6 +186,10 @@
       .todo {
         color: gray;
         text-decoration: line-through;
+      }
+      .progressStyle {
+        width: v-bind("progressWidth");
+        background-color: #fca311;
       }
     </style>
     

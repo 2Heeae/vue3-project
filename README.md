@@ -13,6 +13,9 @@ npm install -g json-server
 ```
 npm i axios
 ```
+```
+npm install vue-router@4
+```
 
 ### Compiles and hot-reloads for development (실행해주세요!)
 ```
