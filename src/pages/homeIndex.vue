@@ -6,7 +6,7 @@
     </h1>
     <SearchBar />
     <hr style="padding: 5px"/>
-    <TodoSimpleFormVue @add-todo="addTodo"/>
+    <AddTodoForm @add-todo="addTodo"/>
     <div style="color:red; margin: 7px;">
         {{ error }}
     </div>
@@ -15,12 +15,12 @@
 </template>
 
 <script>
-  import TodoSimpleFormVue from '@/components/TodoSimpleForm.vue';
+  import AddTodoForm from '@/components/addTodoForm.vue';
   import SearchBar from '@/components/searchBar.vue';
       
   export default{
     components: {
-      TodoSimpleFormVue,
+      AddTodoForm,
       SearchBar
     },
     setup() {

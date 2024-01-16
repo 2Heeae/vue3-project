@@ -16,6 +16,9 @@ npm i axios
 ```
 npm install vue-router@4
 ```
+```
+npm i vue3-datepicker
+```
 
 ### Compiles and hot-reloads for development (실행해주세요!)
 ```

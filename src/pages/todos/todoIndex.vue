@@ -7,7 +7,7 @@
         </h1>
         <SearchBar @search= "search"/>
         <hr style= "padding: 5px"/>
-        <TodoSimpleFormVue 
+        <AddTodoForm 
           v-show= "!searchText"
           @add-todo= "addTodo" 
         />
@@ -34,6 +34,9 @@
             목표달성: {{  progress }}%
           </div>
         </div>
+        <div style= "padding: 3px">
+        </div>
+        <DatepickerVue />
         <TodoListVue 
           :todos="filteredTodos" 
           @toggle-todo="toggleTodo"
@@ -45,17 +48,18 @@
     
     <script>
     import { ref, computed } from 'vue';
-    import TodoSimpleFormVue from '@/components/TodoSimpleForm.vue';
+    import AddTodoForm from '@/components/addTodoForm.vue';
     import TodoListVue from '@/components/TodoList.vue';
     import SearchBar from '@/components/searchBar.vue';
     import axios from 'axios';
+    import DatepickerVue from './DatepickerVue.vue'
     
     export default{
-      // 컴포넌트를 등록해줘야 사용 가능함
       components: {
-        TodoSimpleFormVue,
+        AddTodoForm,
         TodoListVue,
-        SearchBar
+        SearchBar,
+        DatepickerVue
       },
       setup() {
         const todos = ref([]);
@@ -65,6 +69,7 @@
         const progress = ref(0);
         const completedCnt = ref(0);
         const progressWidth = ref(0);
+        const picked = ref(new Date());
     
         const getTodos = async () => {
           try{
@@ -94,7 +99,6 @@
         };
 
         const addTodo = async (todo) => {
-          // DB에 todo를 저장
           error.value = '';
           try{
             const res = await axios.post('http://localhost:3000/todos', {
@@ -104,6 +108,7 @@
             });
             todos.value.push(res.data);
             totalTodos.value++;
+            getTodos();
           } catch (err) {
             console.log(err);
             error.value = 'DB 연결 에러가 발생하였습니다.';
@@ -162,6 +167,11 @@
           }
           return todos.value;
         });
+
+        const filteredDates = computed(() => {
+          console.log(picked.value);
+          return 0;
+        });
     
 
         return{
@@ -177,6 +187,8 @@
           progress,
           countProgress,
           progressWidth,
+          picked,
+          filteredDates,
         }
       }
     }
