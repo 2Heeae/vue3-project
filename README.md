@@ -19,6 +19,12 @@ npm install vue-router@4
 ```
 npm i vue3-datepicker
 ```
+```
+npm install @fullcalendar/vue3 @fullcalendar/core @fullcalendar/daygrid
+```
+```
+npm install dayjs --save
+```
 
 ### Compiles and hot-reloads for development (실행해주세요!)
 ```

@@ -1,8 +1,8 @@
 <template>
     <router-view/>  
       <div>
-        <h1 class= "display-4 text-center p-3"
-          style= "color: #14213d;">
+        <h1 class= "display-5 text-center p-5"
+          style= "font-weight: bold; color: #14213d;">
           📌𝗧𝗼-𝗗𝗼 𝗟𝗶𝘀𝘁
         </h1>
         <SearchBar @search= "search"/>
