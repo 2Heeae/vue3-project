@@ -19,8 +19,8 @@
         <label>
           <input
             type='checkbox'
-            :checked='calendarOptions.weekends'
-            @change='handleWeekendsToggle'
+            :checked="calendarOptions.weekends"
+            @change= "handleWeekendsToggle"
           />
           toggle weekends
         </label>
@@ -29,8 +29,8 @@
         <h2>All Events ({{ currentEvents.length }})</h2>
         <ul>
           <li v-for='event in currentEvents' :key='event.id'>
-            <b>{{ event.startStr }}</b>
-            <i>{{ event.title }}</i>
+            <b>{{ event.date }}</b>
+            <i>{{ event.subject }}</i>
           </li>
         </ul>
       </div>
@@ -38,7 +38,7 @@
     <div class='demo-app-main'>
       <FullCalendar
         class='demo-app-calendar'
-        :options='calendarOptions'
+        :options= "calendarOptions"
       >
         <template v-slot:eventContent='arg'>
           <b>{{ arg.timeText }}</b>
@@ -52,84 +52,119 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { ref,reactive } from 'vue';
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS, createEventId } from './event-utils'
+import axios from 'axios';
 
-export default defineComponent({
+export default {
   components: {
-    FullCalendar,
+    FullCalendar
   },
-  data() {
-    return {
-      calendarOptions: {
-        plugins: [
-          dayGridPlugin,
-          timeGridPlugin,
-          interactionPlugin // needed for dateClick
-        ],
-        headerToolbar: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        initialView: 'dayGridMonth',
-        initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed
-        editable: true,
-        selectable: true,
-        selectMirror: true,
-        dayMaxEvents: true,
-        weekends: true,
-        select: this.handleDateSelect,
-        eventClick: this.handleEventClick,
-        eventsSet: this.handleEvents
-        /* you can update a remote database when these fire:
-        eventAdd:
-        eventChange:
-        eventRemove:
-        */
+  setup(){
+    const error = ref('');
+    const currentEvents = ref([]);
+
+    const getTodos = async () => {
+      try{
+        const res = await axios.get('http://localhost:3000/todos');
+        currentEvents.value = res.data;
+        console.log(currentEvents.value);
+        console.log(res.data);
+      } catch (err) {
+        console.log(err);
+        error.value = 'DB 연결 에러가 발생하였습니다.';
+      }
+    };
+    
+      getTodos();
+
+    const handleDateSelect = async (selectInfo) => {
+      console.log("1임",selectInfo);
+      let subject = prompt('이벤트를 입력해주세요.');
+      let calendarApi = selectInfo.view.calendar;
+
+      calendarApi.unselect();  // 날짜 선택 clear
+
+      if (subject){
+        console.log("2임",subject,selectInfo);
+        try {
+          await calendarApi.addEvent({
+            id : createEventId(),
+            subject,
+            completed: false,
+            date: selectInfo.startStr
+          })
+        } catch (err){
+          console.log(err);
+          error.value = '이벤트 저장 시 에러가 발생하였습니다.';
+        }
+      }
+    };
+
+    const handleEventClick = async (clickInfo) => {
+      if (confirm(`'${clickInfo.event.title}'를 삭제하시겠습니까?`)){
+        try {
+          clickInfo.event.remove();
+        } catch (err){
+          console.log(err);
+          error.value = '이벤트 삭제 시 에러가 발생하였습니다.';
+        }
+      }
+    };
+
+    const handleEvents = () => {
+
+    };
+
+    const calendarOptions = reactive({
+      plugins: [
+        dayGridPlugin,
+        timeGridPlugin,
+        interactionPlugin //dateClick에 필요
+      ],
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay'
       },
-      currentEvents: [],
+      initialView: 'dayGridMonth',
+      initialEvents: INITIAL_EVENTS,
+      selectable: true,
+      selectMirror: true,
+      dayMaxEvents: true,
+      weekends: true,
+      select: handleDateSelect,
+      eventClick: handleEventClick,
+      eventsSet: handleEvents
+      /* DB업데이트 시 사용:
+      eventAdd:
+      eventChange:
+      eventRemove:
+      */
+    });
+
+    const handleWeekendsToggle = () => {
+      calendarOptions.weekends = !calendarOptions.weekends;
+    };
+
+    return {
+      calendarOptions,
+      currentEvents,
+      handleWeekendsToggle,
+      handleDateSelect,
+      handleEventClick,
+      handleEvents,
     }
-  },
-  methods: {
-    handleWeekendsToggle() {
-      this.calendarOptions.weekends = !this.calendarOptions.weekends // update a property
-    },
-    handleDateSelect(selectInfo) {
-      let title = prompt('Please enter a new title for your event')
-      let calendarApi = selectInfo.view.calendar
-
-      calendarApi.unselect() // clear date selection
-
-      if (title) {
-        calendarApi.addEvent({
-          id: createEventId(),
-          title,
-          start: selectInfo.startStr,
-          end: selectInfo.endStr,
-          allDay: selectInfo.allDay
-        })
-      }
-    },
-    handleEventClick(clickInfo) {
-      if (confirm(`Are you sure you want to delete the event '${clickInfo.event.title}'`)) {
-        clickInfo.event.remove()
-      }
-    },
-    handleEvents(events) {
-      this.currentEvents = events
-    },
   }
-})
-
+}
 </script>
 
-<style lang='css'>
 
+<style lang='css'>
 h2 {
   margin: 0;
   font-size: 16px;
@@ -176,5 +211,4 @@ b { /* used for event dates/times */
   max-width: 1100px;
   margin: 0 auto;
 }
-
 </style>
