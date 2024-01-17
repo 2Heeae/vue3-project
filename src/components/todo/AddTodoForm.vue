@@ -7,7 +7,7 @@
             v-model="selectedGoal" 
             style="width: max-content;"
         >
-            <option value="" disabled selected hidden>선택</option>
+            <option value="" disabled selected hidden>목표 선택</option>
             <option 
                 v-for="goal in goals" 
                 :key="goal.id" 
@@ -16,7 +16,6 @@
             {{ goal.title }}
             </option>
         </select>
-
         <!-- TODO 영역  -->         
         <div class="flex-grow-1 me-2">           
         <input 
@@ -50,35 +49,26 @@
 <script>
 import { ref } from 'vue';
 import { useRouter } from "vue-router";
-import axios from 'axios';
 
 export default {
+    props: {
+      goals: {
+          type: Array,
+          required: true
+      }
+    },
     emits: ['add-todo'],
     setup(props, { emit }) {
         const todo = ref('');
-        const goals = ref([]);
         const selectedGoal = ref('');
         const hasErrorTodo = ref(false);
         const hasErrorGoal = ref(false);
 
-        const error = ref('');
         const router = useRouter();
 
         const todoRouter = () => {
             router.push({ path: "/todos" });
         };
-
-        const getGoals = async () => {
-          try{
-            const res = await axios.get('http://localhost:3000/goals');
-            goals.value = res.data;
-          } catch (err) {
-            console.log(err);
-            error.value = 'DB 연결 에러가 발생하였습니다.';
-          }
-        };
-
-        getGoals();
 
         const onSubmit = () => {
             if(selectedGoal.value == ''){
@@ -106,7 +96,6 @@ export default {
 
         return {
             todo,
-            goals,
             selectedGoal,
             hasErrorTodo,
             hasErrorGoal,

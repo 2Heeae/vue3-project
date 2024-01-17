@@ -3,19 +3,25 @@
       <div>
         <h1 class= "display-5 text-center p-5"
           style= "font-weight: bold; color: #14213d;">
-          📌𝗧𝗼-𝗗𝗼 𝗟𝗶𝘀𝘁
+          📌 𝗧𝗼-𝗗𝗼 𝗟𝗶𝘀𝘁
         </h1>
         <div class='demo-app'>
+          <!-- 사이드바 영역 -->
           <div class='demo-app-sidebar'>
             <div class='demo-app-sidebar-section'>
-              <TodoGoalIndexVue />
+              <TodoGoalIndexVue 
+                :goals = "goals"
+                @add-goal = "addGoal"
+              />
             </div>
           </div>
+          <!-- 메인 영역 -->
           <div class='demo-app-main'>
             <SearchBar @search= "search"/>
             <hr style= "padding: 5px"/>
             <AddTodoForm 
               v-show= "!searchText"
+              :goals = "goals"
               @add-todo= "addTodo" 
             />
             <div style= "color:red; margin: 7px;">
@@ -74,8 +80,10 @@
       },
       setup() {
         const todos = ref([]);
+        const goals = ref([]);
         const error = ref('');
         const totalTodos = ref(0);
+        const totalGoals = ref(0);
         const searchText = ref('');
         const progress = ref(0);
         const completedCnt = ref(0);
@@ -114,8 +122,8 @@
           try{
             const res = await axios.post('http://localhost:3000/todos', {
               title: todo.title,
-            completed: todo.completed,
-            date: todo.date
+              completed: todo.completed,
+              date: todo.date
             });
             todos.value.push(res.data);
             totalTodos.value++;
@@ -183,10 +191,39 @@
           console.log(picked.value);
           return 0;
         });
+
+        const getGoals = async () => {
+          try{
+            const res = await axios.get('http://localhost:3000/goals');
+            goals.value = res.data;
+            totalGoals.value = res.data.length;
+          } catch (err) {
+            console.log(err);
+            error.value = 'DB 연결 에러가 발생하였습니다.';
+          }
+      };
+
+      getGoals();
+
+      const addGoal = async(goal) => {
+        error.value = '';
+          try{
+            const res = await axios.post('http://localhost:3000/goals', {
+              title: goal.title,
+            });
+            goals.value.push(res.data);
+            totalGoals.value++;
+          } catch (err) {
+            console.log(err);
+            error.value = 'DB 연결 에러가 발생하였습니다.';
+          }
+          getGoals();
+      };
     
 
         return{
           todos,
+          goals,
           addTodo,
           toggleTodo,
           deleteTodo,
@@ -200,6 +237,8 @@
           progressWidth,
           picked,
           filteredDates,
+          getGoals,
+          addGoal,
         }
       }
     }

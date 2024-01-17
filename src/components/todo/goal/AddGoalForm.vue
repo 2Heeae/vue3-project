@@ -7,7 +7,8 @@
           type="text" 
           v-model="goal"
           style="background-color: #e5e5e5"
-          placeholder="➕︎ 새로운 todo"
+          maxlength="8"
+          placeholder="➕︎ 새로운 목표"
         >
         </div>
         <div>
@@ -21,7 +22,7 @@
         </div>
       </div>
       <div v-show="hasError" style ="color:red; margin: 7px;" >
-        todo가 입력되지 않았습니다.😟
+        목표가 입력되지 않았습니다.😟
       </div>
     </form>
 </template>

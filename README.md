@@ -22,9 +22,7 @@ npm i vue3-datepicker
 ```
 npm install @fullcalendar/vue3 @fullcalendar/core @fullcalendar/daygrid @fullcalendar/timegrid @fullcalendar/interaction
 ```
-```
-npm install dayjs --save
-```
+
 
 ### Compiles and hot-reloads for development (실행해주세요!)
 ```

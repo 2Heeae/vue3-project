@@ -2,7 +2,7 @@
   <div>
     <h1 class="display-5 text-center p-5" 
     style="font-weight: bold; color: #14213d;" >
-      📅𝗧𝗼-𝗗𝗼 𝗖𝗮𝗹𝗲𝗻𝗱𝗮𝗿
+      📅 𝗧𝗼-𝗗𝗼 𝗖𝗮𝗹𝗲𝗻𝗱𝗮𝗿
     </h1>
 
     <div class='demo-app'>
