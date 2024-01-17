@@ -16,7 +16,7 @@
             class="form-check-label"
             :class="{ todo: todo.completed }"
           >
-            {{ todo.subject }}
+            {{ todo.title }}
           </label>
           <small style="float:right; margin-right: 10px;">{{ todo.date }}</small>
         </div>
@@ -42,7 +42,7 @@
       @delete="deleteTodo"
     />
     <UpdateModal
-      :todoSubject="todoUpdateSubject"
+      :todoTitle="todoUpdateTitle"
       v-if="showUpdateModal"
       @close="closeModal"
       @update="updateTodo"
@@ -71,7 +71,7 @@ export default {
       const todoDeleteId = ref(null);
       const showUpdateModal = ref(false);
       const todoUpdateId = ref(null);
-      const todoUpdateSubject = ref(null);
+      const todoUpdateTitle = ref(null);
 
       const toggleTodo = (index) => {
           emit('toggle-todo', index);
@@ -87,7 +87,7 @@ export default {
         showDeleteModal.value = false;
         todoUpdateId.value = null;
         showUpdateModal.value = false;
-        todoUpdateSubject.value = null;
+        todoUpdateTitle.value = null;
       };
 
       const deleteTodo = () => {
@@ -99,15 +99,15 @@ export default {
 
       const openUpdateModal = (todo) => {
         todoUpdateId.value = todo.id;
-        todoUpdateSubject.value = todo.subject;
+        todoUpdateTitle.value = todo.title;
         showUpdateModal.value = true;
       };
 
-      const updateTodo = (subject) => {
-          emit('update-todo', todoUpdateId.value, subject);
+      const updateTodo = (title) => {
+          emit('update-todo', todoUpdateId.value, title);
           showUpdateModal.value = false;
           todoUpdateId.value = null;
-          todoUpdateSubject.value = null;
+          todoUpdateTitle.value = null;
       };
 
       return {
@@ -119,7 +119,7 @@ export default {
           showUpdateModal,
           openUpdateModal,
           closeModal,
-          todoUpdateSubject,
+          todoUpdateTitle,
       }
   }
 }

@@ -102,7 +102,7 @@
           error.value = '';
           try{
             const res = await axios.post('http://localhost:3000/todos', {
-            subject: todo.subject,
+              title: todo.title,
             completed: todo.completed,
             date: todo.date
             });
@@ -142,11 +142,11 @@
           }
         }
 
-        const updateTodo = async (id,subject) => {
+        const updateTodo = async (id,title) => {
           error.value = '';
           try{
             await axios.patch('http://localhost:3000/todos/' + id, {
-              subject: subject
+              title: title
             });
             getTodos();
           } catch(err) {
@@ -162,7 +162,7 @@
         const filteredTodos = computed(() => {
           if (searchText.value) {
             return todos.value.filter(todo => {
-              return todo.subject.includes(searchText.value);
+              return todo.title.includes(searchText.value);
             });
           }
           return todos.value;

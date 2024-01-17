@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-xl navbar-light" 
-       style="background-color: #14213d">
+       style="background-color: #14213d; height: 80px;">
   <div class="container-fluid">
     <router-link 
       class="navbar-brand p-2" to="/"

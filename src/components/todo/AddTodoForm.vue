@@ -47,11 +47,10 @@ export default {
                 hasError.value = true;
             }else{
                 let today = new Date();
-                today.setHours(today.getHours() + 9);
-                today = today.toISOString().replace('T', ' ').substring(0, 19);
+                today = today.toISOString().replace('T', ' ').substring(0, 10);
                 emit('add-todo', {
                     id: Date.now(),
-                    subject: todo.value,
+                    title: todo.value,
                     completed: false,
                     date: today
                 });

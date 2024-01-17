@@ -26,13 +26,15 @@
         </label>
       </div>
       <div class='demo-app-sidebar-section'>
-        <h2>All Events ({{ currentEvents.length }})</h2>
-        <ul>
-          <li v-for='event in currentEvents' :key='event.id'>
-            <b>{{ event.date }}</b>
-            <i>{{ event.subject }}</i>
+        <h2>To-Do List ({{ selectedTodo.length }})</h2>
+        <!--<ul>
+          <li v-for='todo in selectedTodo' :key='todo.id'>
+            <b>{{ todo.date }}</b>
+            <i>{{ todo.title }}</i>
           </li>
-        </ul>
+        </ul> -->
+        <TodoList 
+          :todos= "selectedTodo"/>
       </div>
     </div>
     <div class='demo-app-main'>
@@ -57,23 +59,24 @@ import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import { INITIAL_EVENTS, createEventId } from './event-utils'
+import { INITIAL_EVENTS } from './event-utils'
 import axios from 'axios';
+import TodoList from '@/components/todo/TodoList.vue';
 
 export default {
   components: {
-    FullCalendar
+    FullCalendar,
+    TodoList,
   },
   setup(){
     const error = ref('');
     const currentEvents = ref([]);
+    const selectedTodo = ref({});
 
     const getTodos = async () => {
       try{
         const res = await axios.get('http://localhost:3000/todos');
         currentEvents.value = res.data;
-        console.log(currentEvents.value);
-        console.log(res.data);
       } catch (err) {
         console.log(err);
         error.value = 'DB 연결 에러가 발생하였습니다.';
@@ -82,27 +85,15 @@ export default {
     
       getTodos();
 
-    const handleDateSelect = async (selectInfo) => {
-      console.log("1임",selectInfo);
-      let subject = prompt('이벤트를 입력해주세요.');
+    const handleDateSelect = (selectInfo) => {
+      //날짜 맞춰서 데이터 가져오기 수정해야함(현재 임시)
       let calendarApi = selectInfo.view.calendar;
-
       calendarApi.unselect();  // 날짜 선택 clear
 
-      if (subject){
-        console.log("2임",subject,selectInfo);
-        try {
-          await calendarApi.addEvent({
-            id : createEventId(),
-            subject,
-            completed: false,
-            date: selectInfo.startStr
-          })
-        } catch (err){
-          console.log(err);
-          error.value = '이벤트 저장 시 에러가 발생하였습니다.';
-        }
-      }
+      console.log(selectInfo);
+      selectedTodo.value = currentEvents.value.filter(todo => {
+              return todo.date.includes(selectInfo.startStr);
+            });
     };
 
     const handleEventClick = async (clickInfo) => {
@@ -152,6 +143,7 @@ export default {
     };
 
     return {
+      selectedTodo,
       calendarOptions,
       currentEvents,
       handleWeekendsToggle,
