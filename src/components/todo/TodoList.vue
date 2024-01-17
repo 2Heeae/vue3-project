@@ -36,12 +36,12 @@
         </div>
       </div>
     </div>  
-    <deleteModal 
+    <DeleteModal 
       v-if="showDeleteModal"
       @close="closeModal"
       @delete="deleteTodo"
     />
-    <updateModal
+    <UpdateModal
       :todoSubject="todoUpdateSubject"
       v-if="showUpdateModal"
       @close="closeModal"
@@ -50,14 +50,14 @@
 </template>
 
 <script>
-import deleteModal from './deleteModal.vue';
-import updateModal from './updateModal.vue';
+import DeleteModal from './DeleteModal.vue';
+import UpdateModal from './UpdateModal.vue';
 import {ref} from 'vue';
 
 export default {
   components:{
-    deleteModal,
-    updateModal
+    DeleteModal,
+    UpdateModal
   },
   props: {
       todos: {

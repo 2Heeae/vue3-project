@@ -20,7 +20,7 @@ npm install vue-router@4
 npm i vue3-datepicker
 ```
 ```
-npm install @fullcalendar/vue3 @fullcalendar/core @fullcalendar/daygrid
+npm install @fullcalendar/vue3 @fullcalendar/core @fullcalendar/daygrid @fullcalendar/timegrid @fullcalendar/interaction
 ```
 ```
 npm install dayjs --save

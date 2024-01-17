@@ -48,9 +48,9 @@
     
     <script>
     import { ref, computed } from 'vue';
-    import AddTodoForm from '@/components/addTodoForm.vue';
-    import TodoListVue from '@/components/TodoList.vue';
-    import SearchBar from '@/components/searchBar.vue';
+    import AddTodoForm from '@/components/todo/AddTodoForm.vue';
+    import TodoListVue from '@/components/todo/TodoList.vue';
+    import SearchBar from '@/components/todo/SearchBar.vue';
     import axios from 'axios';
     import DatepickerVue from './DatepickerVue.vue'
     
