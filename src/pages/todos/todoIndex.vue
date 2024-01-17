@@ -5,44 +5,53 @@
           style= "font-weight: bold; color: #14213d;">
           📌𝗧𝗼-𝗗𝗼 𝗟𝗶𝘀𝘁
         </h1>
-        <SearchBar @search= "search"/>
-        <hr style= "padding: 5px"/>
-        <AddTodoForm 
-          v-show= "!searchText"
-          @add-todo= "addTodo" 
-        />
-        <div style= "color:red; margin: 7px;">
-            {{ error }}
-        </div>
-        <div style= "padding: 3px"></div>
-        <div 
-          class= "p-3"
-          v-if="!filteredTodos.length"
-        >
-          내용이 없습니다.
-        </div>
-        <div 
-          class= "progress" 
-          v-if= "filteredTodos.length" 
-          v-show= "!searchText" >
-          <div
-            class= "progress-bar progress-bar-striped progress-bar-animated progressStyle"
-            role= "progressbar"
-            aria-valuenow= progress
-            aria-valuemin= "0" 
-            aria-valuemax= "100">
-            목표달성: {{  progress }}%
+        <div class='demo-app'>
+          <div class='demo-app-sidebar'>
+            <div class='demo-app-sidebar-section'>
+              <TodoGoalIndexVue />
+            </div>
+          </div>
+          <div class='demo-app-main'>
+            <SearchBar @search= "search"/>
+            <hr style= "padding: 5px"/>
+            <AddTodoForm 
+              v-show= "!searchText"
+              @add-todo= "addTodo" 
+            />
+            <div style= "color:red; margin: 7px;">
+                {{ error }}
+            </div>
+            <div style= "padding: 3px"></div>
+            <div 
+              class= "p-3"
+              v-if="!filteredTodos.length"
+            >
+              내용이 없습니다.
+            </div>
+            <div 
+              class= "progress" 
+              v-if= "filteredTodos.length" 
+              v-show= "!searchText" >
+              <div
+                class= "progress-bar progress-bar-striped progress-bar-animated progressStyle"
+                role= "progressbar"
+                aria-valuenow= progress
+                aria-valuemin= "0" 
+                aria-valuemax= "100">
+                목표달성: {{  progress }}%
+              </div>
+            </div>
+            <div style= "padding: 3px">
+            </div>
+            <DatepickerVue />
+            <TodoListVue 
+              :todos="filteredTodos" 
+              @toggle-todo="toggleTodo"
+              @delete-todo="deleteTodo"
+              @update-todo="updateTodo"
+            />
           </div>
         </div>
-        <div style= "padding: 3px">
-        </div>
-        <DatepickerVue />
-        <TodoListVue 
-          :todos="filteredTodos" 
-          @toggle-todo="toggleTodo"
-          @delete-todo="deleteTodo"
-          @update-todo="updateTodo"
-        />
       </div>
     </template>
     
@@ -52,14 +61,16 @@
     import TodoListVue from '@/components/todo/TodoList.vue';
     import SearchBar from '@/components/todo/SearchBar.vue';
     import axios from 'axios';
-    import DatepickerVue from './DatepickerVue.vue'
-    
+    import DatepickerVue from './DatepickerVue.vue';
+    import TodoGoalIndexVue from './TodoGoalIndex.vue';
+
     export default{
       components: {
         AddTodoForm,
         TodoListVue,
         SearchBar,
-        DatepickerVue
+        DatepickerVue,
+        TodoGoalIndexVue
       },
       setup() {
         const todos = ref([]);
@@ -83,7 +94,7 @@
             error.value = 'DB 연결 에러가 발생하였습니다.';
           }
         };
-    
+
         getTodos();
 
         const settingProgress = () => {
@@ -194,7 +205,25 @@
     }
     </script>
     
-    <style>
+    <style lang='css'>
+      h2 {
+      margin: 0;
+      font-size: 16px;
+      }
+
+      ul {
+        margin: 0;
+        padding: 0 0 0 1.5em;
+      }
+
+      li {
+        margin: 1.5em 0;
+        padding: 0;
+      }
+
+      b { /* used for event dates/times */
+        margin-right: 3px;
+      }
       .todo {
         color: gray;
         text-decoration: line-through;
@@ -203,5 +232,31 @@
         width: v-bind("progressWidth");
         background-color: #fca311;
       }
+      .demo-app {
+        display: flex;
+        min-height: 100%;
+        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+        font-size: 14px;
+      }
+
+      .demo-app-sidebar {
+        width: 300px;
+        line-height: 1.5;
+        background: #eaf9ff;
+        border-right: 1px solid #d3e2e8;
+      }
+
+      .demo-app-sidebar-section {
+        padding: 2em;
+      }
+
+      .demo-app-main {
+        flex-grow: 1;
+        padding: 3em;
+      }
+
+      .fc { /* the calendar root */
+        max-width: 1100px;
+        margin: 0 auto;
+      }
     </style>
-    
