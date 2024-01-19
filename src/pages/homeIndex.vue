@@ -8,10 +8,13 @@
     <div class='demo-app'>
     <div class='demo-app-sidebar'>
       <div class='demo-app-sidebar-section'>
-        <h2>2024년 목표를 이뤄보자!🍀</h2>
+        <h2 style="font-weight: bold; font-size: 130%;">2024년 목표를 이뤄보자!🍀</h2>
         <ul>
-          <li>목표 설정 후, 할 일을 등록하여 차근차근 이뤄내봅시다.</li>
+          <li>목표 설정 후, 할 일을 등록하여 <br>차근차근 이뤄내봅시다.</li>
         </ul>
+      </div>
+      <div class='demo-app-sidebar-section'>
+        <AddGoalForm />
       </div>
       <div class='demo-app-sidebar-section'>
         <label>
@@ -60,11 +63,13 @@ import interactionPlugin from '@fullcalendar/interaction'
 import { INITIAL_EVENTS } from './event-utils'
 import axios from 'axios';
 import TodoList from '@/components/todo/TodoList.vue';
+import AddGoalForm from '@/components/todo/goal/AddGoalForm.vue';
 
 export default {
   components: {
     FullCalendar,
     TodoList,
+    AddGoalForm,
   },
   setup(){
     const error = ref('');
@@ -84,14 +89,15 @@ export default {
     getTodos();
 
     const handleDateSelect = (selectInfo) => {
+      console.log(selectInfo);
       //날짜 맞춰서 데이터 가져오기 수정해야함(현재 임시)
       let calendarApi = selectInfo.view.calendar;
       calendarApi.unselect();  // 날짜 선택 clear
 
       console.log(selectInfo);
       selectedTodo.value = currentEvents.value.filter(todo => {
-              return todo.date.includes(selectInfo.startStr);
-            });
+          return todo.date.includes(selectInfo.startStr);
+      });
     };
 
     const handleEventClick = async (clickInfo) => {

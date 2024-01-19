@@ -1,8 +1,11 @@
 <template>
     <div 
+      class="card mt-2"
       v-for="(todo, index) in todos"
       :key="todo.id"
-      class="card mt-2"
+      :style="{borderColor : goals.filter(goal => {
+              goal.title == todo.goal
+            }).color}"
     >
       <div class="card-body p-2 d-flex align-items-center">
         <div class="form-check flex-grow-1">
@@ -12,6 +15,9 @@
             :checked="todo.completed"
             @change="toggleTodo(index)"
           >
+          <span style="color: gray; font-weight: bold; padding-right: 5px;">
+            [ {{ todo.goal }} ] 
+          </span>
           <label 
             class="form-check-label"
             :class="{ todo: todo.completed }"
@@ -35,7 +41,8 @@
           </button>
         </div>
       </div>
-    </div>  
+    
+  </div> 
     <DeleteModal 
       v-if="showDeleteModal"
       @close="closeModal"
@@ -61,6 +68,10 @@ export default {
   },
   props: {
       todos: {
+          type: Array,
+          required: true
+      },
+      goals: {
           type: Array,
           required: true
       }

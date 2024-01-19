@@ -12,45 +12,36 @@
                 id="exampleModalLabel"
                 style="color:white"
             >
-                새로운 목표 등록
+                목표 수정/삭제
             </h5>
             <button type="button" class="close">
             <span @click="onClose">&times;</span>
             </button>
         </div>
         <div class="modal-body" style="background-color: #e5e5e5;">
-            <div class="p-2">
-                <span>컬러 선택: </span>
-                <ColorPicker  
-                    v-model="selectColor"
-                    @pureColorChange="changeColor" />
-            </div>   
             <input 
                 class="form-control"
                 type="text" 
                 style="height: 70px;"
-                v-model="goal"
-                maxlength="8"
+                :value="goalTitle"
+                @input="changeText"
             >
-            <div v-show="hasError" style ="color:red; margin: 7px;" >
-                목표가 입력되지 않았습니다.😟
-            </div>
         </div>
         <div 
             class="modal-footer" 
             style="background-color: #e5e5e5; padding-top: 0">
             <button 
                 type="button" class="btn btn-secondary" 
-                @click="onClose"
+                @click="onDelete"
             >
-                취소
+                삭제
             </button>
             <button 
                 type="button" class="btn btn-primary"
                 style="background-color: #fca311; border-color: #fca311;"
-                @click="onAdd"
+                @click="onUpdate(editTitle)"
             >
-                등록
+                수정
             </button>
         </div>
         </div>
@@ -60,52 +51,43 @@
 
 <script>
 import { ref } from 'vue';
-import { ColorPicker } from "vue3-colorpicker";
-import "vue3-colorpicker/style.css";
 
 export default {
-    components: {
-        ColorPicker
+    props: {
+        goalTitle: {
+            type: String,
+            required: true
+        }
     },
-
-    emits: ['close','add-goal'],
-    setup(props, { emit }) {
-        const goal = ref('');
-        const hasError = ref(false);
-        const selectColor= ref(null);
+    emits: ['onClose', 'onUpdate','onDelete'],
+    setup(props, {emit}) {
+        const editTitle = ref(null);
 
         const onClose = () => {
-            goal.value = '';
+            editTitle.value = null;
             emit('close');
         };
 
-        const onAdd = () => {   
-            if (goal.value == ''){
-                hasError.value = true;
-            }else{
-                emit('add-goal', {
-                    goal: goal.value,
-                    color: selectColor.value
-                });
-                hasError.value = false;
-                goal.value = '';
-            }
+        const onUpdate = (editTitle) => {
+            console.log('수정보냄',editTitle);
+            emit('update', editTitle);
         };
 
-        const changeColor = (color) =>{
-            selectColor.value = color.replace('\'', '');
+        const changeText = (event) => {
+            console.log(event.target);
+            editTitle.value = event.target.value;
         };
 
-
+        const onDelete = () => {
+            emit('delete');
+        };
 
         return {
-            goal,
-            hasError,
-            selectColor,
-            onAdd,
+            editTitle,
             onClose,
-            changeColor,
-
+            onUpdate,
+            onDelete,
+            changeText,
         }
     }
 }
@@ -129,8 +111,5 @@ export default {
         width: 450px;
         padding: 80px 28px 50px 27px;
         border-radius: 10px;
-    }
-    .changeColor{
-        background-color: v-bind("selectColor");
     }
 </style>

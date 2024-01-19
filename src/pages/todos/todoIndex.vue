@@ -10,8 +10,11 @@
           <div class='demo-app-sidebar'>
             <div class='demo-app-sidebar-section'>
               <TodoGoalIndexVue 
+                :todos = "todos"
                 :goals = "goals"
                 @add-goal = "addGoal"
+                @delete-goal="deleteGoal"
+                @update-goal="updateGoal"
               />
             </div>
           </div>
@@ -50,6 +53,7 @@
             <div style= "padding: 3px">
             </div>
             <TodoListVue 
+              :goals="goals"
               :todos="filteredTodos" 
               @toggle-todo="toggleTodo"
               @delete-todo="deleteTodo"
@@ -164,6 +168,17 @@
           }
         }
 
+        const deleteGoal = async (id) => {
+          error.value = '';
+          try{
+            await axios.delete('/goals/' + id);
+            getGoals();
+          } catch(err) {
+            console.log(err);
+            error.value = 'DB 연결 에러가 발생하였습니다.';
+          }
+        }
+
         const updateTodo = async (id,title) => {
           error.value = '';
           try{
@@ -171,6 +186,21 @@
               id: id,
               title: title
             });
+            getTodos();
+          } catch(err) {
+            console.log(err);
+            error.value = 'DB 연결 에러가 발생하였습니다.';
+          }
+        }
+
+        const updateGoal = async (id,title) => {
+          error.value = '';
+          try{
+            await axios.patch('/goals/updateTitle',{
+              id: id,
+              title: title
+            });
+            getGoals();
             getTodos();
           } catch(err) {
             console.log(err);
@@ -209,12 +239,13 @@
 
       getGoals();
 
-      const addGoal = async(goal) => {
+      const addGoal = async(pGoal) => {
         error.value = '';
           try{
             const res = await axios.post('/goals', {
               id: nanoid(8),
-              title: goal,
+              title: pGoal.goal,
+              color: pGoal.color
             });
             goals.value.push(res.data);
             totalGoals.value++;
@@ -233,6 +264,8 @@
           toggleTodo,
           deleteTodo,
           updateTodo,
+          deleteGoal,
+          updateGoal,
           searchText,
           search,
           filteredTodos,
