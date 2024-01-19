@@ -1,58 +1,61 @@
 <template>
-    <form @submit.prevent="onSubmit">
+    
       <div class="d-flex">
-        <div class="flex-grow-1 me-2">
-        <input 
-          class="form-control"
-          type="text" 
-          v-model="goal"
-          style="background-color: #e5e5e5"
-          maxlength="8"
-          placeholder="➕︎ 새로운 목표"
-        >
-        </div>
-        <div>
+        <div class="flex-grow-1 me-2">  
             <button 
                 class="btn btn-primary" 
                 style="background-color: #fca311; border-color: #fca311;"
                 type="submit"
+                @click="openAddModal"
             >
-            추가
+            ➕︎ 새로운 목표 추가
             </button>
         </div>
       </div>
-      <div v-show="hasError" style ="color:red; margin: 7px;" >
-        목표가 입력되지 않았습니다.😟
-      </div>
-    </form>
+    
+    <AddGoalModal 
+        v-if="showAddModal"
+        @close="closeModal"
+        @add-goal="onSubmit"
+    />
 </template>
 
 <script>
 import { ref } from 'vue';
+import AddGoalModal from './AddGoalModal.vue';
 
 export default {
+    components: {
+        AddGoalModal
+    },
+
     emits: ['add-goal'],
     setup(props, { emit }) {
         const goal = ref('');
         const hasError = ref(false);
+        const showAddModal = ref(false);
 
-        const onSubmit = () => {   
-            if (goal.value == ''){
-                hasError.value = true;
-            }else{
-                emit('add-goal', {
-                    id: Date.now(),
-                    title: goal.value,
-                });
-                hasError.value = false;
-                goal.value = '';
-            }
+        const onSubmit = (goal) => {
+            console.log(goal);
+            emit('add-goal',goal);
+            showAddModal.value = false;
+        };
+
+        const closeModal = () => {
+        showAddModal.value = false;
+      };
+
+        const openAddModal = () => {
+            showAddModal.value = true;
         };
 
         return {
             goal,
             hasError,
             onSubmit,
+            showAddModal,
+            openAddModal,
+            closeModal,
         }
     }
 }

@@ -4,32 +4,24 @@
     <div class="modal">
         <div class="modal-content">
         <div 
-            class="modal-header" 
-            style="background-color: #14213d; height: 45px;"
+        class="modal-header" 
+        style="background-color: #14213d; height: 45px;"
         >
             <h5 
                 class="modal-title" 
                 id="exampleModalLabel"
                 style="color:white"
             >
-                수정확인
+                삭제확인
             </h5>
             <button type="button" class="close">
             <span @click="onClose">&times;</span>
             </button>
         </div>
         <div class="modal-body" style="background-color: #e5e5e5;">
-            <input 
-                class="form-control"
-                type="text" 
-                style="height: 70px;"
-                :value="todoTitle"
-                @input="changeText"
-            >
+            정말 삭제하시겠습니까?
         </div>
-        <div 
-            class="modal-footer" 
-            style="background-color: #e5e5e5; padding-top: 0">
+        <div class="modal-footer" style="background-color: #e5e5e5; padding-top: 0">
             <button 
                 type="button" class="btn btn-secondary" 
                 @click="onClose"
@@ -39,9 +31,9 @@
             <button 
                 type="button" class="btn btn-primary"
                 style="background-color: #fca311; border-color: #fca311;"
-                @click="onUpdate(editTitle)"
+                @click="onDelete"
             >
-                확인
+                삭제
             </button>
         </div>
         </div>
@@ -50,44 +42,24 @@
 </template>
 
 <script>
-import { ref } from 'vue';
-
 export default {
-    props: {
-      todoTitle: {
-          type: String,
-          required: true
-      }
-    },
-    emits: ['onClose', 'onUpdate'],
     setup(props, {emit}) {
-        const editTitle = ref(null);
-
         const onClose = () => {
-            editTitle.value = null;
             emit('close');
-        };
-
-        const onUpdate = (editTitle) => {
-            console.log('수정보냄',editTitle);
-            emit('update', editTitle);
-        };
-
-        const changeText = (event) => {
-            editTitle.value = event.target.value;
-        };
-
+        }
+        const onDelete = () => {
+            emit('delete');
+        }
         return {
             onClose,
-            onUpdate,
-            editTitle,
-            changeText,
+            onDelete
         }
     }
 }
 </script>
 
 <style scoped>
+
     .modal-wrapper{
         /* 화면에 꽉 차게 하는 코드(여기서는 너비를 꽉 채우는 용도) */
         position: fixed;

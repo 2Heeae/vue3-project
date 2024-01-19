@@ -12,7 +12,7 @@
         <li class="nav-item fs-5">
           <router-link 
             class="nav-link active" aria-current="page" 
-            to="/todoPage" style="color: #ffffff"
+            to="/todos" style="color: #ffffff"
           >
             TODO LIST
           </router-link>

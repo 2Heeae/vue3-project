@@ -23,7 +23,7 @@
                 class="form-control"
                 type="text" 
                 style="height: 70px;"
-                :value="todoTitle"
+                :value="todoSubject"
                 @input="changeText"
             >
         </div>
@@ -39,7 +39,7 @@
             <button 
                 type="button" class="btn btn-primary"
                 style="background-color: #fca311; border-color: #fca311;"
-                @click="onUpdate(editTitle)"
+                @click="onUpdate(editSubject)"
             >
                 확인
             </button>
@@ -54,33 +54,33 @@ import { ref } from 'vue';
 
 export default {
     props: {
-      todoTitle: {
+      todoSubject: {
           type: String,
           required: true
       }
     },
     emits: ['onClose', 'onUpdate'],
     setup(props, {emit}) {
-        const editTitle = ref(null);
+        const editSubject = ref(null);
 
         const onClose = () => {
-            editTitle.value = null;
+            editSubject.value = null;
             emit('close');
         };
 
-        const onUpdate = (editTitle) => {
-            console.log('수정보냄',editTitle);
-            emit('update', editTitle);
+        const onUpdate = (editSubject) => {
+            console.log('수정보냄',editSubject);
+            emit('update', editSubject);
         };
 
         const changeText = (event) => {
-            editTitle.value = event.target.value;
+            editSubject.value = event.target.value;
         };
 
         return {
             onClose,
             onUpdate,
-            editTitle,
+            editSubject,
             changeText,
         }
     }

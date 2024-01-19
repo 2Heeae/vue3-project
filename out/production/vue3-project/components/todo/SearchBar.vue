@@ -18,7 +18,7 @@
             const router = useRouter();
             
             const todoRouter = () => {
-                router.push({ path: "/todoPage" });
+                router.push({ path: "/todos" });
             };
 
             const onSearch = (stext) => {

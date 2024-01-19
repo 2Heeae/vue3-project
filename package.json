@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "vue-cli-service serve --port 8090",
+    "build": "vue-cli-service build --watch",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -18,13 +18,19 @@
     "core-js": "^3.8.3",
     "dayjs": "^1.11.10",
     "json-server": "^0.16.3",
+    "nanoid": "^5.0.4",
     "vue": "^3.2.13",
+    "vue-color-kit": "^1.0.6",
+    "vue-native-color-picker": "^1.2.0",
     "vue-router": "^4.2.5",
-    "vue3-datepicker": "^0.4.0"
+    "vue3-colorpicker": "^2.2.3",
+    "vue3-datepicker": "^0.4.0",
+    "vueticol": "^1.0.15"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
     "@babel/eslint-parser": "^7.12.16",
+    "@types/tinycolor2": "^1.4.6",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",

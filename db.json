@@ -41,6 +41,27 @@
       "title": "1234445",
       "completed": false,
       "date": "2024-01-17"
+    },
+    {
+      "id": "c455",
+      "goal": "독서",
+      "title": "추리소설",
+      "completed": false,
+      "date": "2024-01-17"
+    },
+    {
+      "id": "3c03",
+      "goal": "운동",
+      "title": "운동하자",
+      "completed": true,
+      "date": "2024-01-17"
+    },
+    {
+      "id": "bdf8",
+      "goal": "즐거운점심시간",
+      "title": "밥먹기",
+      "completed": false,
+      "date": "2024-01-17"
     }
   ],
   "goals": [
@@ -71,6 +92,30 @@
     {
       "id": "6910",
       "title": "777"
+    },
+    {
+      "id": "3c3d",
+      "title": "운동"
+    },
+    {
+      "id": "a084",
+      "title": "과연.."
+    },
+    {
+      "id": "e103",
+      "title": "두근"
+    },
+    {
+      "id": "66cf",
+      "title": "혹시몰라"
+    },
+    {
+      "id": "e972",
+      "title": "작성해보자"
+    },
+    {
+      "id": "c5db",
+      "title": "111"
     }
   ]
 }

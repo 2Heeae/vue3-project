@@ -44,7 +44,7 @@
                 aria-valuenow= progress
                 aria-valuemin= "0" 
                 aria-valuemax= "100">
-                전체 목표 달성: {{  progress }}%
+                목표달성: {{  progress }}%
               </div>
             </div>
             <div style= "padding: 3px">
@@ -67,7 +67,6 @@
     import TodoListVue from '@/components/todo/TodoList.vue';
     import SearchBar from '@/components/todo/SearchBar.vue';
     import TodoGoalIndexVue from './TodoGoalIndex.vue';
-    import { nanoid } from 'nanoid';
 
     export default{
       components: {
@@ -90,7 +89,7 @@
     
         const getTodos = async () => {
           try{
-            const res = await axios.get('/todos');
+            const res = await axios.get('http://localhost:3000/todos');
             todos.value = res.data;
             totalTodos.value = res.data.length;
             // progress 계산하기
@@ -118,8 +117,7 @@
         const addTodo = async (todo) => {
           error.value = '';
           try{
-            const res = await axios.post('/todos', {
-              id: nanoid(8),
+            const res = await axios.post('http://localhost:3000/todos', {
               goal: todo.goal,
               title: todo.title,
               completed: todo.completed,
@@ -136,15 +134,12 @@
     
         const toggleTodo = async (index) => {
           error.value = '';
+          const id = todos.value[index].id;
           try{
-            await axios.put('/todos/updateToggle',{
-              id: todos.value[index].id,
-              goal: todos.value[index].goal,
-              title: todos.value[index].title,
-              completed: !todos.value[index].completed,
-              date: todos.value[index].date
+            await axios.patch('http://localhost:3000/todos/' + id, {
+              completed: !todos.value[index].completed
             });
-            
+            todos.value[index].completed = !todos.value[index].completed;
             getTodos();
           } catch(err) {
             console.log(err);
@@ -155,7 +150,7 @@
         const deleteTodo = async (id) => {
           error.value = '';
           try{
-            await axios.delete('/todos/' + id);
+            await axios.delete('http://localhost:3000/todos/' + id);
             totalTodos.value--;
             getTodos();
           } catch(err) {
@@ -167,8 +162,7 @@
         const updateTodo = async (id,title) => {
           error.value = '';
           try{
-            await axios.patch('/todos/updateTitle',{
-              id: id,
+            await axios.patch('http://localhost:3000/todos/' + id, {
               title: title
             });
             getTodos();
@@ -198,7 +192,7 @@
 
         const getGoals = async () => {
           try{
-            const res = await axios.get('/goals');
+            const res = await axios.get('http://localhost:3000/goals');
             goals.value = res.data;
             totalGoals.value = res.data.length;
           } catch (err) {
@@ -212,9 +206,8 @@
       const addGoal = async(goal) => {
         error.value = '';
           try{
-            const res = await axios.post('/goals', {
-              id: nanoid(8),
-              title: goal,
+            const res = await axios.post('http://localhost:3000/goals', {
+              title: goal.title,
             });
             goals.value.push(res.data);
             totalGoals.value++;

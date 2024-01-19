@@ -48,6 +48,7 @@
 
 <script>
 import { ref } from 'vue';
+import { useRouter } from "vue-router";
 
 export default {
     props: {
@@ -62,6 +63,12 @@ export default {
         const selectedGoal = ref('');
         const hasErrorTodo = ref(false);
         const hasErrorGoal = ref(false);
+
+        const router = useRouter();
+
+        const todoRouter = () => {
+            router.push({ path: "/todos" });
+        };
 
         const onSubmit = () => {
             if(selectedGoal.value == ''){
@@ -94,6 +101,7 @@ export default {
             hasErrorTodo,
             hasErrorGoal,
             onSubmit,
+            todoRouter
         }
     }
 }

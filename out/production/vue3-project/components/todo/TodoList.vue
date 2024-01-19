@@ -98,7 +98,6 @@ export default {
       };
 
       const openUpdateModal = (todo) => {
-        console.log("수정모달을 열며..",todo);
         todoUpdateId.value = todo.id;
         todoUpdateTitle.value = todo.title;
         showUpdateModal.value = true;
